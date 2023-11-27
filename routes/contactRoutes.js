@@ -5,19 +5,23 @@
 const express = require('express');
 const router = express.Router();
 const { getContact, createContact, deleteContact, updateContact, getIdContact }  = require("../controllers/contactCpntroller");
+const validateToken = require('../middleware/validateTokenHandler');
 // we will declare for all methods
 
 // in all the arguements for the http request we have declared routes in separate file and are importing them here to keep things simple
 // No need to get confused here
  
+ 
+// router.route('/').get(getContact).post(postContact); //
+
+// we can do this with other routes who have similar req, res
+// making all the routes private
+router.use(validateToken); // all the routes for fetching, deleting, updating the contacts are private now 
+
 // this is get method
 router.route('/').get(getContact); 
 // since both get and post route are similar we can also write them like this
 
-// router.route('/').get(getContact).post(postContact); //
-
-// we can do this with other routes who have similar req, res
- 
 // to get an contact by id
 router.route('/:id').get(getIdContact);
      

@@ -1,7 +1,9 @@
 // contains routes for registering and login handlers
 
 const express = require('express');
+ 
 const { registerUser, loginUser, currentUser } = require('../controllers/userController');
+const validToken = require('../middleware/validateTokenHandler');
 // calling router
 
 const router = express.Router();
@@ -11,9 +13,9 @@ router.post("/register", registerUser);
 
 
 // route for loging the user
-router.post("/login",loginUser)
+router.post("/login", loginUser)
 
 // to give details about the current user
-router.post("/current", currentUser)
+router.get("/current", validToken , currentUser)
 
 module.exports = router;

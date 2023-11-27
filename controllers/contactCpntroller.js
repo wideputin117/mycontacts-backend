@@ -12,12 +12,14 @@ const { error } = require("console");
 // to use express inbuilt async handler wrap whole asyc in asyncHandler
 // asyncHandler automatically sends an err if there is an eroor
 // with asyncHandler
+// private function
 const getContact = asyncHandler( async (req, res) =>{
-    const contacts = await Contact.find();
+    const contacts = await Contact.find( { user_id: req.user.id } );
     res.status(201).json(contacts);})
 
 
     // get contact by id
+    //private function
 const getIdContact = asyncHandler (async (req, res) =>{
     // finding by id
     const contact = await Contact.findById(req.params.id); 
@@ -32,6 +34,7 @@ const getIdContact = asyncHandler (async (req, res) =>{
 
 // to create a contact
 // have to use async await for connecting to the database 
+// private
 const createContact = async (req, res) =>{
     // for testing purposes
       // log out data coming from the client
@@ -50,6 +53,7 @@ const createContact = async (req, res) =>{
         name,      // if the key and value are same we can just pass the key otherwise we will type both key and value
         email,
         phone,
+        user_id: req.user.id,
      })
        // this is the else statement
     res.status(201).json(contact);
@@ -58,6 +62,7 @@ const createContact = async (req, res) =>{
 
 
 // to delete a contact
+// private method
 const deleteContact = async (req, res) =>{ 
     // to fetch the contact by id
     const contact = await Contact.findByIdAndDelete(req.params.id);  // used findByIdAndDelete to delete the the contact
